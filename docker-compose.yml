@@ -30,6 +30,30 @@ services:
     volumes:
       - sqlserver_data:/var/opt/mssql # Persist data
 
+  producer:
+    build:
+      context: . # Build from the current directory
+      dockerfile: Dockerfile.producer # Use your producer Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092 # Use the service name
+      - API_URL=https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
+    depends_on:
+      - kafka
+
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.consumer # Use your consumer Dockerfile
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - SQL_SERVER=sqlserver
+      - SQL_DATABASE=master
+      - SQL_USERNAME=sa
+      - SQL_PASSWORD=YourStrongPassword! # CHANGE THIS!
+    depends_on:
+      - kafka
+      - sqlserver # Consumer needs both Kafka and SQL Server
+
   # Optional: Kafka UI for monitoring
   kafka-ui:
     image: provectuslabs/kafka-ui:latest

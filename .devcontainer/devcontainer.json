@@ -1,0 +1,18 @@
+{
+    "name": "Streaming Data App Dev Container",
+    "dockerComposeFile": "../docker-compose.yml", // Reference your docker-compose.yml
+    "service": "producer", // Connect to the 'producer' service for development/debugging
+    "workspaceFolder": "/app", // Mounts your local project to /app in the service container
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "forwardPorts": [8080, 1433], // Forward Kafka UI and SQL Server ports
+    "postCreateCommand": "pip install --no-cache-dir -r requirements.txt", // Install dev dependencies
+    "remoteUser": "root" // Or 'developer' if you set one up in the Dockerfile
+}
