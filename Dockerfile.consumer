@@ -3,28 +3,6 @@ FROM python:3.11-slim-bullseye
 
 WORKDIR /app
 
-# Install ODBC dependencies and SQL Server ODBC Driver 17
-# Based on Microsoft's instructions for Debian/Ubuntu
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    gnupg \
-    unixodbc-dev \
-    # Optional: for debugging or more tools
-    # procps \
-    # less \
-    # iputils-ping \
-    && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17 \
-    # Optional: for specific versions of SQL Server, you might need mssql-tools
-    # mssql-tools \
-    && \
-    rm -rf /var/lib/apt/lists/*
-
-# Set environment variables for ODBC driver
-ENV PATH="/opt/mssql-tools/bin:${PATH}"
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

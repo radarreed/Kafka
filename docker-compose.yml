@@ -16,26 +16,28 @@ services:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true # Auto-create topics for simplicity
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
     depends_on:
       - zookeeper
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  # NEW: PostgreSQL Service
+  postgres:
+    image: postgres:15-alpine # A lightweight PostgreSQL 15 image
     ports:
-      - "1433:1433"
+      - "5432:5432" # Default PostgreSQL port
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Rod # CHANGE THIS to a strong password
+      - POSTGRES_DB=crypto_db # Your database name
+      - POSTGRES_USER=admin # Your database user
+      - POSTGRES_PASSWORD=mysecretpassword # CHANGE THIS to a strong password
     volumes:
-      - sqlserver_data:/var/opt/mssql # Persist data
+      - postgres_data:/var/lib/postgresql/data # Persist data
 
   producer:
     build:
-      context: . # Build from the current directory
-      dockerfile: Dockerfile.producer # Use your producer Dockerfile
+      context: .
+      dockerfile: Dockerfile.producer
     environment:
-      - KAFKA_BROKER=kafka:9092 # Use the service name
+      - KAFKA_BROKER=kafka:9092
       - API_URL=https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
     depends_on:
       - kafka
@@ -43,18 +45,17 @@ services:
   consumer:
     build:
       context: .
-      dockerfile: Dockerfile.consumer # Use your consumer Dockerfile
+      dockerfile: Dockerfile.consumer # This Dockerfile will be updated next
     environment:
       - KAFKA_BROKER=kafka:9092
-      - SQL_SERVER=sqlserver
-      - SQL_DATABASE=master
-      - SQL_USERNAME=sa
-      - SQL_PASSWORD=YourStrongPassword! # CHANGE THIS!
+      - PG_HOST=postgres # Use the service name
+      - PG_DATABASE=crypto_db
+      - PG_USER=admin
+      - PG_PASSWORD=mysecretpassword # CHANGE THIS - MUST MATCH postgres service
     depends_on:
       - kafka
-      - sqlserver # Consumer needs both Kafka and SQL Server
+      - postgres # Consumer now depends on postgres
 
-  # Optional: Kafka UI for monitoring
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
@@ -66,5 +67,7 @@ services:
       - kafka
 
 volumes:
-  sqlserver_data:
+  postgres_data: # NEW volume for PostgreSQL
+    driver: local
+  sqlserver_data: # Remove this volume if you're permanently switching
     driver: local
