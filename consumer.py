@@ -18,7 +18,7 @@ PG_PASSWORD = os.getenv('PG_PASSWORD', 'mysecretpassword') # CHANGE THIS!
 
 # --- ADD THIS DELAY ---
 print("Waiting 15 seconds for Kafka to be ready for the Consumer...")
-time.sleep(15) # Give Kafka some time to fully start
+time.sleep(45) # Give Kafka some time to fully start
 
 # Establish Kafka Consumer
 consumer = KafkaConsumer(
