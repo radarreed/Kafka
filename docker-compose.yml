@@ -39,8 +39,8 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
       - API_URL=https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
-    depends_on:
-      - kafka
+    # depends_on:
+    #   - kafka
 
   # consumer:
   #   build:
@@ -66,8 +66,8 @@ services:
   #   depends_on:
   #     - kafka
 
-volumes:
-  postgres_data: # NEW volume for PostgreSQL
-    driver: local
-  sqlserver_data: # Remove this volume if you're permanently switching
-    driver: local
+# volumes:
+#   postgres_data: # NEW volume for PostgreSQL
+#     driver: local
+#   sqlserver_data: # Remove this volume if you're permanently switching
+#     driver: local
