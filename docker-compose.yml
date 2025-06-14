@@ -49,29 +49,29 @@ services:
       - kafka
     command: ["tail", "-f", "/dev/null"]
 
-  # consumer:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.consumer # This Dockerfile will be updated next
-  #   environment:
-  #     - KAFKA_BROKER=kafka:9092
-  #     - PG_HOST=postgres # Use the service name
-  #     - PG_DATABASE=crypto_db
-  #     - PG_USER=admin
-  #     - PG_PASSWORD=mysecretpassword # CHANGE THIS - MUST MATCH postgres service
-  #   depends_on:
-  #     - kafka
-  #     - postgres # Consumer now depends on postgres
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.consumer # This Dockerfile will be updated next
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - PG_HOST=postgres # Use the service name
+      - PG_DATABASE=crypto_db
+      - PG_USER=admin
+      - PG_PASSWORD=mysecretpassword # CHANGE THIS - MUST MATCH postgres service
+    depends_on:
+      - kafka
+      - postgres # Consumer now depends on postgres
 
-  # kafka-ui:
-  #   image: provectuslabs/kafka-ui:latest
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     - KAFKA_CLUSTERS_0_NAME=local-kafka
-  #     - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-  #   depends_on:
-  #     - kafka
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local-kafka
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      - kafka
 
 volumes:
   postgres_data: # NEW volume for PostgreSQL
