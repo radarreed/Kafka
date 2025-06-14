@@ -12,7 +12,7 @@
             ]
         }
     },
-    "forwardPorts": [5432], //[8080, 1433], // Forward Kafka UI and SQL Server ports
+    "forwardPorts": [8080, 1433], // Forward Kafka UI and SQL Server ports
     "postCreateCommand": "pip install --no-cache-dir -r requirements.txt", // Install dev dependencies
     "remoteUser": "root" // Or 'developer' if you set one up in the Dockerfile
 }
