@@ -76,7 +76,7 @@ services:
     depends_on:
       - kafka
 
-volumes:
+#volumes:
 #   postgres_data: # NEW volume for PostgreSQL
 #     driver: local
 # #   
