@@ -27,16 +27,18 @@ services:
       - zookeeper
 
   # NEW: PostgreSQL Service
-  postgres:
-    image: postgres:15-alpine # A lightweight PostgreSQL 15 image
-    ports:
-      - "5432:5432" # Default PostgreSQL port
-    environment:
-      - POSTGRES_DB=crypto_db # Your database name
-      - POSTGRES_USER=admin # Your database user
-      - POSTGRES_PASSWORD=mysecretpassword # CHANGE THIS to a strong password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data # Persist data
+  # postgres:
+  #   image: postgres:15-alpine # A lightweight PostgreSQL 15 image
+  #   ports:
+  #     - "5432:5432" # Default PostgreSQL port
+  #   environment:
+  #     - POSTGRES_DB=crypto_db # Your database name
+  #     - POSTGRES_USER=admin # Your database user
+  #     - POSTGRES_PASSWORD=mysecretpassword # CHANGE THIS to a strong password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data # Persist data
+
+
 
   producer:
     build:
@@ -55,13 +57,14 @@ services:
       dockerfile: Dockerfile.consumer # This Dockerfile will be updated next
     environment:
       - KAFKA_BROKER=kafka:9092
-      - PG_HOST=postgres # Use the service name
-      - PG_DATABASE=crypto_db
-      - PG_USER=admin
-      - PG_PASSWORD=mysecretpassword # CHANGE THIS - MUST MATCH postgres service
+      - SQL_SERVER=host.docker.internal # Point to your local machine
+      - SQL_PORT=1433
+      - SQL_DATABASE=Kafka # Your local DB name
+      - SQL_USERNAME=Kafka  # Your local SQL Server username
+      - SQL_PASSWORD=Kafka  # CHANGE THIS!
     depends_on:
       - kafka
-      - postgres # Consumer now depends on postgres
+      # - postgres # Consumer now depends on postgres
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -74,6 +77,6 @@ services:
       - kafka
 
 volumes:
-  postgres_data: # NEW volume for PostgreSQL
-    driver: local
-#   
+#   postgres_data: # NEW volume for PostgreSQL
+#     driver: local
+# #   
