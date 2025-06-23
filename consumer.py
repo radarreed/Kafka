@@ -20,15 +20,15 @@ KAFKA_TOPIC = 'crypto_prices'
 # SQL Server configuration for LOCAL machine
 # 'host.docker.internal' is a special hostname used by Docker Desktop to refer to the host machine.
 SQL_SERVER = os.getenv('SQL_SERVER', 'host.docker.internal') # Connect to your local Windows machine
-SQL_PORT = os.getenv('SQL_PORT', '1434') # Default SQL Server port
+SQL_PORT = os.getenv('SQL_PORT', '1435') # Default SQL Server port
 SQL_DATABASE = os.getenv('SQL_DATABASE', 'Kafka') # Or your specific database name
 SQL_USERNAME = os.getenv('SQL_USERNAME', 'Kafka') # Your SQL Server username
 SQL_PASSWORD = os.getenv('SQL_PASSWORD', 'Kafka') # CHANGE THIS to your local SA password!
 
 
 # --- ADD THIS DELAY ---
-print("Waiting 15 seconds for Kafka to be ready for the Consumer...")
-time.sleep(45) # Give Kafka some time to fully start
+print("Waiting 30 seconds for Kafka to be ready for the Consumer...")
+time.sleep(30) # Give Kafka some time to fully start
 
 # Establish Kafka Consumer
 consumer = KafkaConsumer(
