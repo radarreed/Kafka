@@ -58,7 +58,7 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
       - SQL_SERVER=host.docker.internal # Point to your local machine
-      - SQL_PORT=1433
+      - SQL_PORT=50000
       - SQL_DATABASE=Kafka # Your local DB name
       - SQL_USERNAME=Kafka  # Your local SQL Server username
       - SQL_PASSWORD=Kafka  # CHANGE THIS!
