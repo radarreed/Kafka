@@ -49,7 +49,7 @@ services:
       - API_URL=https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
     depends_on:
       - kafka
-    command: ["python", "producer.py"] # This will now start producer.py automatically
+    command: ["/bin/bash", "-c", "sleep 10 && python producer.py"] # This will now start producer.py automatically
 
   consumer:
     build:
@@ -65,7 +65,7 @@ services:
     depends_on:
       - kafka
       # - postgres # Consumer now depends on postgres
-    command: ["python", "consumer.py"] # This will now start consumer.py automatically
+    command: ["/bin/bash", "-c", "sleep 20 && python consumer.py"] # This will now start consumer.py automatically
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
