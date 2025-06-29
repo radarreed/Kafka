@@ -23,12 +23,12 @@ SQL_SERVER = os.getenv('SQL_SERVER', 'host.docker.internal') # Connect to your l
 SQL_PORT = os.getenv('SQL_PORT', '50000') # Default SQL Server port
 SQL_DATABASE = os.getenv('SQL_DATABASE', 'Kafka') # Or your specific database name
 SQL_USERNAME = os.getenv('SQL_USERNAME', 'Kafka') # Your SQL Server username
-SQL_PASSWORD = os.getenv('SQL_PASSWORD', 'Kafka') # CHANGE THIS to your local SA password!
+SQL_PASSWORD = os.getenv('SQL_PASSWORD', 'Kafka2025') # CHANGE THIS to your local SA password!
 
 
 # --- ADD THIS DELAY ---
-print("Waiting 30 seconds for Kafka to be ready for the Consumer...")
-time.sleep(30) # Give Kafka some time to fully start
+print("Waiting 40 seconds for Kafka to be ready for the Consumer...")
+time.sleep(40) # Give Kafka some time to fully start
 
 # Establish Kafka Consumer
 consumer = KafkaConsumer(

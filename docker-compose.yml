@@ -61,7 +61,7 @@ services:
       - SQL_PORT=50000
       - SQL_DATABASE=Kafka # Your local DB name
       - SQL_USERNAME=Kafka  # Your local SQL Server username
-      - SQL_PASSWORD=Kafka  # CHANGE THIS!
+      - SQL_PASSWORD=Kafka2025  # CHANGE THIS!
     depends_on:
       - kafka
       # - postgres # Consumer now depends on postgres
